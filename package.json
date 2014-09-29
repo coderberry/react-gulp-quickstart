@@ -1,0 +1,33 @@
+{
+  "name": "react-gulp-quickstart",
+  "description": "a starter project for react work",
+  "version": "0.0.0",
+  "dependencies": {
+    "react": "~0.11.2",
+    "react-router": "~0.7.0"
+  },
+  "author": "Eric Berry <cavneb@gmail.com>",
+  "devDependencies": {
+    "gulp": "~3.3.2",
+    "gulp-coffee": "~1.2.5",
+    "gulp-sass": "~0.4.0",
+    "gulp-watch": "~0.4.1",
+    "webpack": "~1.0.0-beta6",
+    "webpack-dev-server": "~1.2.0",
+    "jsx-loader": "git://github.com/petehunt/jsx-loader",
+    "coffee-script": "*",
+    "gulp-util": "*",
+    "coffee-loader": "~0.6.0",
+    "script-loader": "~0.5.1",
+    "gulp-clean": "~0.2.2",
+    "gulp-livereload": "~0.2.0",
+    "tiny-lr": "0.0.5",
+    "express": "~3.4.8",
+    "bower": "1.3.6",
+    "tmp": "0.0.23",
+    "gulp-rev": "~0.2.0",
+    "gulp-uglify": "~0.1.0",
+    "gulp-minify-css": "~0.2.0"
+  },
+  "license": "MIT"
+}
