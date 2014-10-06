@@ -3,6 +3,7 @@ var createServers, execWebpack, httpPort, sassConfig, vendorPaths;
 var path = require('path');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+var sourcemaps = require('gulp-sourcemaps');
 var express = require('express');
 var sass = require('gulp-sass');
 var minifyCSS = require('gulp-minify-css');
@@ -12,6 +13,7 @@ var rev = require('gulp-rev');
 var tiny_lr = require('tiny-lr');
 var webpack = require("webpack");
 var webpackConfig = require("./webpack.config.js");
+var server = require('pushstate-server');
 
 
 
@@ -25,7 +27,11 @@ sassConfig = { includePaths: ['src/styles'] };
 httpPort = 4000;
 
 // paths to files in bower_components that should be copied to dist/assets/vendor
-vendorPaths = ['es5-shim/es5-sham.js', 'es5-shim/es5-shim.js', 'bootstrap/dist/css/bootstrap.css'];
+vendorPaths = [
+  'es5-shim/es5-sham.js',
+  'es5-shim/es5-shim.js',
+  // 'bootstrap/dist/css/bootstrap.css'
+];
 
 
 
@@ -39,7 +45,9 @@ gulp.task('clean', function() {
 // main.scss should @include any other CSS you want
 gulp.task('sass', function() {
   return gulp.src('src/styles/main.scss')
+             .pipe(gulp.env.production ? gutil.noop() : sourcemaps.init())
              .pipe(sass(sassConfig).on('error', gutil.log))
+             .pipe(gulp.env.production ? gutil.noop() : sourcemaps.write())
              .pipe(gulp.env.production ? minifyCSS() : gutil.noop())
              .pipe(gulp.env.production ? rev() : gutil.noop())
              .pipe(gulp.dest('dist/assets'));
@@ -113,14 +121,15 @@ createServers = function(port, lrport) {
   lr.listen(lrport, function() {
     return gutil.log("LiveReload listening on", lrport);
   });
-  app = express();
-  app.use(express["static"](path.resolve("./dist")));
-  app.listen(port, function() {
-    return gutil.log("HTTP server listening on", port);
+
+  server.start({
+    port: port,
+    directory: path.resolve("./dist")
   });
+
   return {
     lr: lr,
-    app: app
+    app: server
   };
 };
 
