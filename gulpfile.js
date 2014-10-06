@@ -12,6 +12,7 @@ var rev = require('gulp-rev');
 var tiny_lr = require('tiny-lr');
 var webpack = require("webpack");
 var webpackConfig = require("./webpack.config.js");
+var sourcemaps = require('gulp-sourcemaps');
 
 
 
@@ -25,7 +26,10 @@ sassConfig = { includePaths: ['src/styles'] };
 httpPort = 4000;
 
 // paths to files in bower_components that should be copied to dist/assets/vendor
-vendorPaths = ['es5-shim/es5-sham.js', 'es5-shim/es5-shim.js', 'bootstrap/dist/css/bootstrap.css'];
+vendorPaths = [
+  'es5-shim/es5-sham.js',
+  'es5-shim/es5-shim.js'
+];
 
 
 
@@ -39,7 +43,9 @@ gulp.task('clean', function() {
 // main.scss should @include any other CSS you want
 gulp.task('sass', function() {
   return gulp.src('src/styles/main.scss')
+             .pipe(gulp.env.production ? gutil.noop() : sourcemaps.init())
              .pipe(sass(sassConfig).on('error', gutil.log))
+             .pipe(gulp.env.production ? gutil.noop() : sourcemaps.write())
              .pipe(gulp.env.production ? minifyCSS() : gutil.noop())
              .pipe(gulp.env.production ? rev() : gutil.noop())
              .pipe(gulp.dest('dist/assets'));
