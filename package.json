@@ -4,10 +4,7 @@
   "version": "0.0.0",
   "dependencies": {
     "react": "~0.11.2",
-    "react-router": "~0.7.0",
-    "node-sass": "~0.9.5-rc1",
-    "gulp-sourcemaps": "~1.2.2",
-    "pushstate-server": "~1.1.0"
+    "react-router": "~0.7.0"
   },
   "author": "Eric Berry <cavneb@gmail.com>",
   "devDependencies": {
